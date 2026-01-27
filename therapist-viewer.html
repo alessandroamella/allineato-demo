@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terapeuti - Risultati di Ricerca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --color-ink: #1a1a1a;
+            --color-paper: #fdfbf7;
+            --color-accent: #8b6914;
+            --color-accent-light: #d4af37;
+            --color-border: #e8e3d8;
+            --color-shadow: rgba(0, 0, 0, 0.08);
+            --color-score-high: #2d5016;
+            --color-score-mid: #8b6914;
+            --color-score-low: #8b4513;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f5f0e8 100%);
+            color: var(--color-ink);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--color-border);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6b6b6b;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--color-border);
+            background: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Work Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.1);
+        }
+
+        .sort-select {
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--color-border);
+            background: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Work Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .sort-select:hover {
+            border-color: var(--color-accent);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.1);
+        }
+
+        .results-count {
+            padding: 0.5rem 0;
+            color: #6b6b6b;
+            font-size: 0.95rem;
+            animation: fadeIn 0.8s ease 0.3s both;
+        }
+
+        .therapist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .therapist-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 2px 8px var(--color-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .therapist-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--card-accent-color);
+            transform: scaleY(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .therapist-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .therapist-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .therapist-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: 0.3rem;
+        }
+
+        .avatar-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--color-border);
+            flex-shrink: 0;
+        }
+
+        .therapist-name a:hover {
+            color: var(--color-accent);
+        }
+
+        .score-badge {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            min-width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--score-bg-1), var(--score-bg-2));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .approach-tag {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            background: linear-gradient(135deg, #f5f0e8, #e8e3d8);
+            color: var(--color-accent);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            border: 1px solid var(--color-border);
+        }
+
+        .rating-info {
+            font-size: 0.9rem;
+            color: #6b6b6b;
+        }
+
+        .reasoning {
+            color: #4a4a4a;
+            font-size: 0.98rem;
+            line-height: 1.7;
+            padding: 1rem;
+            background: #fafaf8;
+            border-left: 3px solid var(--color-accent-light);
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .view-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.7rem 1.3rem;
+            background: var(--color-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(139, 105, 20, 0.2);
+        }
+
+        .view-link:hover {
+            background: var(--color-accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #8b8b8b;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--color-accent);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .therapist-card {
+                padding: 1.3rem;
+            }
+
+            .card-header {
+                flex-direction: column-reverse;
+                align-items: start;
+            }
+
+            .score-badge {
+                align-self: flex-end;
+            }
+
+            .therapist-name {
+                font-size: 1.5rem;
+            }
+
+            .avatar-image {
+                width: 40px;
+                height: 40px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .sort-select {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            body {
+                font-size: 12px;
+                line-height: 1.4;
+                background: white;
+                color: black;
+                padding: 0.5rem;
+            }
+
+            .container {
+                max-width: none;
+                margin: 0;
+            }
+
+            header {
+                margin-bottom: 1rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #ccc;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .results-count {
+                font-size: 0.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .therapist-card {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                border: 1px solid #ccc;
+                box-shadow: none;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                background: white;
+            }
+
+            .therapist-card::before {
+                display: none;
+            }
+
+            .therapist-name {
+                font-size: 1.2rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .therapist-name a {
+                color: black;
+                text-decoration: underline;
+            }
+
+            .score-badge {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                min-width: 50px;
+            }
+
+            .approach-tag {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.6rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .rating-info {
+                font-size: 0.8rem;
+            }
+
+            .reasoning {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+                margin-top: 0.5rem;
+                background: #f9f9f9;
+                border-left: 2px solid #ccc;
+            }
+
+            .view-link {
+                display: none;
+            }
+
+            .empty-state,
+            .loading {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Risultati Terapeuti</h1>
+            <p class="subtitle">Trova il professionista più adatto a te</p>
+        </header>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cerca per nome o approccio..." autocomplete="off">
+            </div>
+            <select id="sortSelect" class="sort-select">
+                <option value="score-desc">Punteggio: Alto → Basso</option>
+                <option value="score-asc">Punteggio: Basso → Alto</option>
+                <option value="rating-desc">Valutazione: Alto → Basso</option>
+                <option value="rating-asc">Valutazione: Basso → Alto</option>
+                <option value="reviews-desc">Recensioni: Più → Meno</option>
+                <option value="reviews-asc">Recensioni: Meno → Più</option>
+                <option value="name-asc">Nome: A → Z</option>
+                <option value="name-desc">Nome: Z → A</option>
+            </select>
+        </div>
+
+        <div class="results-count" id="resultsCount"></div>
+
+        <div id="loading" class="loading">Caricamento dati...</div>
+        <div id="therapistList" class="therapist-list"></div>
+        <div id="emptyState" class="empty-state" style="display: none;">
+            Nessun terapeuta trovato con i criteri di ricerca attuali.
+        </div>
+    </div>
+
+    <script>
+        let therapists = [];
+        let filteredTherapists = [];
+
+        // Fetch data from the server
+        async function loadData() {
+            try {
+                const response = await fetch('/api/therapists');
+                therapists = await response.json();
+                filteredTherapists = [...therapists];
+                filterAndSort();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loading').textContent = 'Errore nel caricamento dei dati.';
+            }
+        }
+
+        function getScoreColor(score) {
+            if (score >= 70) {
+                return {
+                    bg1: '#2d5016',
+                    bg2: '#4a7c1f',
+                    accent: '#2d5016'
+                };
+            } else if (score >= 60) {
+                return {
+                    bg1: '#8b6914',
+                    bg2: '#a67c1b',
+                    accent: '#8b6914'
+                };
+            } else {
+                return {
+                    bg1: '#8b4513',
+                    bg2: '#a0522d',
+                    accent: '#8b4513'
+                };
+            }
+        }
+
+        function renderTherapists() {
+            const list = document.getElementById('therapistList');
+            const loading = document.getElementById('loading');
+            const emptyState = document.getElementById('emptyState');
+            const resultsCount = document.getElementById('resultsCount');
+
+            loading.style.display = 'none';
+
+            if (filteredTherapists.length === 0) {
+                list.innerHTML = '';
+                emptyState.style.display = 'block';
+                resultsCount.textContent = '';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            resultsCount.textContent = `${filteredTherapists.length} ${filteredTherapists.length === 1 ? 'risultato' : 'risultati'}`;
+
+            list.innerHTML = filteredTherapists.map((therapist, index) => {
+                const colors = getScoreColor(therapist.score);
+                const avatarUrl = therapist.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(therapist.nome_terapeuta.split(' ')[0])}&background=8b6914&color=fff&size=50`;
+                return `
+                    <div class="therapist-card" style="animation-delay: ${index * 0.05}s; --card-accent-color: ${colors.accent}">
+                        <div class="card-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                                    <img src="${avatarUrl}" alt="Avatar di ${therapist.nome_terapeuta}" class="avatar-image">
+                                    <h2 class="therapist-name">
+                                        <a href="${therapist.url}" target="_blank" rel="noopener noreferrer">
+                                            ${therapist.nome_terapeuta}
+                                        </a>
+                                    </h2>
+                                    ${therapist.reviewCount != null ? `<div class="rating-info">⭐ ${therapist.rating} (${therapist.reviewCount} recensioni)</div>` : ''}
+                                </div>
+                                <div class="approach-tag">${therapist.approccio_rilevato}</div>
+                            </div>
+                            <div class="score-badge" style="--score-bg-1: ${colors.bg1}; --score-bg-2: ${colors.bg2}">
+                                ${therapist.score}
+                            </div>
+                        </div>
+                        <div class="reasoning">${therapist.match_reasoning}</div>
+                        <a href="${therapist.url}" target="_blank" rel="noopener noreferrer" class="view-link">
+                            <span>Vedi Profilo</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterAndSort() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sortBy = document.getElementById('sortSelect').value;
+
+            // Filter
+            filteredTherapists = therapists.filter(t => {
+                return t.nome_terapeuta.toLowerCase().includes(searchTerm) ||
+                    t.approccio_rilevato.toLowerCase().includes(searchTerm) ||
+                    t.match_reasoning.toLowerCase().includes(searchTerm);
+            });
+
+            // Sort
+            filteredTherapists.sort((a, b) => {
+                switch (sortBy) {
+                    case 'score-desc':
+                        return b.score - a.score;
+                    case 'score-asc':
+                        return a.score - b.score;
+                    case 'rating-desc':
+                        return (b.rating || 0) - (a.rating || 0);
+                    case 'rating-asc':
+                        return (a.rating || 0) - (b.rating || 0);
+                    case 'reviews-desc':
+                        return (b.reviewCount || 0) - (a.reviewCount || 0);
+                    case 'reviews-asc':
+                        return (a.reviewCount || 0) - (b.reviewCount || 0);
+                    case 'name-asc':
+                        return a.nome_terapeuta.localeCompare(b.nome_terapeuta, 'it');
+                    case 'name-desc':
+                        return b.nome_terapeuta.localeCompare(a.nome_terapeuta, 'it');
+                    default:
+                        return 0;
+                }
+            });
+
+            renderTherapists();
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterAndSort);
+        document.getElementById('sortSelect').addEventListener('change', filterAndSort);
+
+        // Initialize
+        loadData();
+    </script>
+</body>
+
+</html>
