@@ -8,12 +8,12 @@ Questa repository contiene un prototipo di sistema di abbinamento terapeuta-pazi
 
 ### Risultato del parsing JSON dei professionisti
 
-![Risultato parsing JSON](https://github.com/alessandroamella/allineato-demo/sample-images/parsed_json.png)
+![Risultato parsing JSON](/sample-images/parsed_json.png)
 
 ### GUI con risultati da punteggio più alto
 
-![GUI risultati alti](https://github.com/alessandroamella/allineato-demo/sample-images/gui_1.png)
+![GUI risultati alti](/sample-images/gui_1.png)
 
 ### Profili con punteggi bassi
 
-![GUI risultati bassi](https://github.com/alessandroamella/allineato-demo/sample-images/gui_2.png)
+![GUI risultati bassi](/sample-images/gui_2.png)
