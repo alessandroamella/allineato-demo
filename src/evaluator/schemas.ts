@@ -1,3 +1,8 @@
+/**
+ * Copyright 2026 Alessandro Amella
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { z } from "zod";
 
 // Flexible patient profile - AI can capture nuances

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2026 Alessandro Amella
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import type { PatientProfile, TherapistCriteria } from "./schemas";
 
 export const MOCK_PROFILE: PatientProfile = {

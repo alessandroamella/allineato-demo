@@ -1,3 +1,8 @@
+/**
+ * Copyright 2026 Alessandro Amella
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { GoogleGenAI } from "@google/genai";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { MOCK_CRITERIA, MOCK_PROFILE } from "./mock-profile";
