@@ -1,26 +1,26 @@
 {
-	"name": "scrape-miodottore-ps",
-	"module": "index.ts",
-	"type": "module",
-	"private": true,
-	"scripts": {
-		"scrape": "bun run src/index.ts",
-		"evaluate": "bun run src/evaluator/index.ts",
-		"view": "bun run src/viewer-server.ts",
-		"check": "biome check",
-		"format": "biome check --write"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.3.13",
-		"@types/bun": "latest"
-	},
-	"peerDependencies": {
-		"typescript": "^5"
-	},
-	"dependencies": {
-		"@google/genai": "^1.38.0",
-		"puppeteer": "^24.36.1",
-		"zod-to-json-schema": "^3.25.1",
-		"zon": "^1.0.3"
-	}
+  "name": "scrape-miodottore-ps",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "scrape": "bun run src/index.ts",
+    "evaluate": "bun run src/evaluator.ts",
+    "view": "bun run src/viewer-server.ts",
+    "check": "biome check",
+    "format": "biome check --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.13",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@google/genai": "^1.38.0",
+    "puppeteer": "^24.36.1",
+    "zod-to-json-schema": "^3.25.1",
+    "zon": "^1.0.3"
+  }
 }
